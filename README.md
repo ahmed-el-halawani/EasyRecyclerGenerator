@@ -12,7 +12,7 @@
 		}
 	}
  
-Step 2. Add the dependency
+Step 2. Add the dependency  [![](https://jitpack.io/v/ahmedgomaa97/EasyRecyclerGenerator.svg)](https://jitpack.io/#ahmedgomaa97/EasyRecyclerGenerator)
 
 	dependencies {
 	        implementation 'com.github.ahmedgomaa97:EasyRecyclerGenerator:Tag'
