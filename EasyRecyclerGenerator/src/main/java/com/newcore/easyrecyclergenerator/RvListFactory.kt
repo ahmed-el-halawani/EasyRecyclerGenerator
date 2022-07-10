@@ -35,7 +35,7 @@ class RvListFactory(context: Context) {
         rvListAdapter.remove(position)
     }
 
-    fun <T : ViewBinding, L> addView(
+    fun <T : ViewBinding, L> addItem(
         binding: (LayoutInflater) -> T,
         child: L,
         generator: (T, L) -> Unit,
@@ -45,7 +45,7 @@ class RvListFactory(context: Context) {
         )
     }
 
-    fun <T : ViewBinding, L> generateViews(
+    fun <T : ViewBinding, L> listBuilder(
         binding: (LayoutInflater) -> T,
         children: List<L>,
         generator: (T, L) -> Unit,

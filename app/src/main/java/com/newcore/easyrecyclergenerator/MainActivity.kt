@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
             binding.rvList,
             GridLayoutManager(this, 3),
         ) {
-            generateViews(
+            listBuilder(
                 binding = ItemIntentInfoButtonBinding::inflate,
                 children = List(1000) { "ahmed $it" }
             ) { v, i ->
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                 v.tvName.text = i
             }
 
-            generateViews(
+            listBuilder(
                 binding = ItemTableRowBinding::inflate,
                 children = List(1000) { "gomaa $it" }
             ) { v, i ->
