@@ -18,3 +18,29 @@ Step 2. Add the dependency
 	        implementation 'com.github.ahmedgomaa97:EasyRecyclerGenerator:Tag'
 	}
 
+
+## Example
+
+
+        rvList(
+            binding.rvList,
+            GridLayoutManager(context, 3),
+        ) {
+            generateViews(
+                binding = ItemIntentInfoButtonBinding::inflate,
+                children = List(1000) { "ahmed $it" }
+            ) { v, i ->
+                v.tvDescription.text = i
+                v.tvName.text = i
+            }
+
+            generateViews(
+                binding = ItemTableRowBinding::inflate,
+                children = List(1000) { "gomaa $it" }
+            ) { v, i ->
+                v.tvColumn1.text = i
+                v.tvColumn2.text = i
+                v.tvColumn3.text = i
+                v.tvColumn4.text = i
+            }
+        }
