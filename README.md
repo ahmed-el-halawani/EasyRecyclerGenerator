@@ -26,7 +26,7 @@ Step 2. Add the dependency
             binding.rvList,
             GridLayoutManager(context, 3),
         ) {
-            generateViews(
+            listBuilder(
                 binding = ItemIntentInfoButtonBinding::inflate,
                 children = List(1000) { "ahmed $it" }
             ) { v, i ->
@@ -34,7 +34,7 @@ Step 2. Add the dependency
                 v.tvName.text = i
             }
 
-            generateViews(
+            listBuilder(
                 binding = ItemTableRowBinding::inflate,
                 children = List(1000) { "gomaa $it" }
             ) { v, i ->
