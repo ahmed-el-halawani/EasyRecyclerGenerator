@@ -2,6 +2,8 @@ package com.newcore.easy_recycler_generator
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -45,7 +47,17 @@ class RvListFactory(context: Context) {
         generator: (T, L) -> Unit,
     ) {
         rvListAdapter.add(
-            ViewGeneratorHolder(binding, child, layoutInflater, generator)
+            ViewGeneratorHolder(binding, -1, child, layoutInflater, generator)
+        )
+    }
+
+    fun <T : View, L> addItem(
+        @LayoutRes layoutId: Int,
+        child: L,
+        generator: (T, L) -> Unit,
+    ) {
+        rvListAdapter.add(
+            ViewGeneratorHolder(null, layoutId, child, layoutInflater, generator)
         )
     }
 
@@ -56,7 +68,19 @@ class RvListFactory(context: Context) {
     ) {
         rvListAdapter.addAll(
             children.map {
-                ViewGeneratorHolder(binding, it, layoutInflater, generator)
+                ViewGeneratorHolder(binding, -1, it, layoutInflater, generator)
+            }
+        )
+    }
+
+    fun <T : View, L> listBuilder(
+        @LayoutRes layoutId: Int,
+        children: List<L>,
+        generator: (T, L) -> Unit,
+    ) {
+        rvListAdapter.addAll(
+            children.map {
+                ViewGeneratorHolder(null, layoutId, it, layoutInflater, generator)
             }
         )
     }
