@@ -15,7 +15,7 @@
 Step 2. Add the dependency  [![](https://jitpack.io/v/ahmedgomaa97/EasyRecyclerGenerator.svg)](https://jitpack.io/#ahmedgomaa97/EasyRecyclerGenerator)
 
 	dependencies {
-	        implementation 'com.github.ahmedgomaa97:EasyRecyclerGenerator:1.2
+	        implementation 'com.github.ahmedgomaa97:EasyRecyclerGenerator:1.2'
 	}
 
 
