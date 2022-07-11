@@ -49,6 +49,7 @@ class RvListFactory(context: Context) {
         )
     }
 
+
     fun <T : ViewBinding, L> listBuilder(
         binding: (LayoutInflater) -> T,
         children: List<L>,

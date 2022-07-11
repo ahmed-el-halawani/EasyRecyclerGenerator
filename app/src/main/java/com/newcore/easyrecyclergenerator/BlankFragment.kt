@@ -1,25 +1,36 @@
 package com.newcore.easyrecyclergenerator
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.newcore.easy_recycler_generator.RvListFactory
-import com.newcore.easyrecyclergenerator.databinding.FragmentFlatListTestBinding
+import com.newcore.easyrecyclergenerator.databinding.FragmentBlankBinding
 import com.newcore.easyrecyclergenerator.databinding.ItemIntentInfoButtonBinding
 
-class MainActivity : AppCompatActivity() {
+class BlankFragment : Fragment() {
 
     val binding by lazy {
-        FragmentFlatListTestBinding.inflate(layoutInflater)
+        FragmentBlankBinding.inflate(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
 
         rvList(
             binding.rvList,
-            GridLayoutManager(this, 3),
+            GridLayoutManager(requireContext(), 3),
         ) {
             listBuilder(
                 binding = ItemIntentInfoButtonBinding::inflate,
@@ -36,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 
     private fun RvListFactory.func(data: String) {
         addItem(

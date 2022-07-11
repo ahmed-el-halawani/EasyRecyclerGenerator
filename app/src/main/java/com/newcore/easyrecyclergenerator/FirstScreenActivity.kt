@@ -14,6 +14,10 @@ class FirstScreenActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+        findViewById<Button>(R.id.btnGoToRecycler2).setOnClickListener {
+            val intent = Intent(this, fragmentPlaceHolderActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }
