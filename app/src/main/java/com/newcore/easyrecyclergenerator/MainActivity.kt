@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.newcore.easyrecyclergenerator.databinding.FragmentFlatListTestBinding
 import com.newcore.easyrecyclergenerator.databinding.ItemIntentInfoButtonBinding
-import com.newcore.easyrecyclergenerator.databinding.ItemTableRowBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,21 +22,22 @@ class MainActivity : AppCompatActivity() {
         ) {
             listBuilder(
                 binding = ItemIntentInfoButtonBinding::inflate,
-                children = List(1000) { "ahmed $it" }
-            ) { v, i ->
-                v.tvDescription.text = i
-                v.tvName.text = i
+                children = List(10) { "ahmed $it" }
+            ) { v, data ->
+                v.tvDescription.text = data
+                v.tvName.text = data
+                //                v.button.setOnClickListener { removeItem(data) }
+                v.button.setOnClickListener {
+                    val z = addItem(
+                        binding = ItemIntentInfoButtonBinding::inflate,
+                        child = data + "new"
+                    ) { binding, data ->
+                        binding.tvDescription.text = data
+                        binding.tvName.text = data
+                    }
+                }
             }
 
-            listBuilder(
-                binding = ItemTableRowBinding::inflate,
-                children = List(1000) { "gomaa $it" }
-            ) { v, i ->
-                v.tvColumn1.text = i
-                v.tvColumn2.text = i
-                v.tvColumn3.text = i
-                v.tvColumn4.text = i
-            }
         }
 
     }

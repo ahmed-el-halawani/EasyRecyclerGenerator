@@ -31,10 +31,15 @@ class RvList : RecyclerView.Adapter<RvList.RvListViewHolder>() {
         notifyItemInserted(children.size - 1)
     }
 
-    fun remove(view: ViewGeneratorHolder<*, *>) {
-        val itemPosition = children.indexOf(view)
-        children.remove(view)
-        notifyItemRemoved(itemPosition)
+    fun remove(viewGeneratorHolder: ViewGeneratorHolder<*, *>) {
+        val itemPosition = children.indexOf(viewGeneratorHolder)
+        remove(itemPosition)
+    }
+
+    fun remove(data: Any) {
+        children.firstOrNull { it.data == data }?.also {
+            remove(children.indexOf(it))
+        }
     }
 
     fun remove(position: Int) {

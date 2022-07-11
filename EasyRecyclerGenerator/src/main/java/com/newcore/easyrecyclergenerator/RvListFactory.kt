@@ -27,12 +27,16 @@ class RvListFactory(context: Context) {
     }
 
 
-    fun remove(view: ViewGeneratorHolder<*, *>) {
+    fun removeItem(view: ViewGeneratorHolder<*, *>) {
         rvListAdapter.remove(view)
     }
 
-    fun remove(position: Int) {
+    fun removeItem(position: Int) {
         rvListAdapter.remove(position)
+    }
+
+    fun removeItem(data: Any) {
+        rvListAdapter.remove(data)
     }
 
     fun <T : ViewBinding, L> addItem(

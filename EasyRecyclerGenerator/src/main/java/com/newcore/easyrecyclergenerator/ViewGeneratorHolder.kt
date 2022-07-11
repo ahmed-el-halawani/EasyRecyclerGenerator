@@ -5,13 +5,13 @@ import androidx.viewbinding.ViewBinding
 
 class ViewGeneratorHolder<T : ViewBinding, L>(
     private val binding: (LayoutInflater) -> T,
-    private val child: L,
+    val data: L,
     private val layoutInflater: LayoutInflater,
     private val generator: (T, L) -> Unit,
 ) {
     val view by lazy {
         binding(layoutInflater).apply {
-            generator(this, child)
+            generator(this, data)
         }.root
     }
 }
