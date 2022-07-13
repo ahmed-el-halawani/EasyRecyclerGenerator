@@ -4,6 +4,6 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
     val list by lazy {
-        MutableList(10) { "ahmed $it" }
+        MutableList(1000) { "ahmed $it" }
     }
 }

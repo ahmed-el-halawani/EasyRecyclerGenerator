@@ -3,10 +3,12 @@ package com.newcore.easyrecyclergenerator
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-interface RvListFactory {
+class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFactory {
+
     /**
      * binding : binding inflate functions
      *      ex: binding = ItemViewBinding::inflate  where ItemView is layout
@@ -17,11 +19,20 @@ interface RvListFactory {
      * return ViewGeneratorHolder it is reference of data in recycler just used for
      * getting data or view or remove it from recycler
      */
-    fun <T : ViewBinding, L> addItem(
+    override fun <T : ViewBinding, L> addItem(
         binding: (LayoutInflater) -> T,
         child: L,
         generator: (T, L) -> Unit,
-    ): ViewGeneratorHolder<T, L>
+    ): ViewGeneratorHolder<T, L> {
+        return addItem(
+            ViewGeneratorHolder(
+                binding = binding,
+                data = child,
+                layoutInflater = layoutInflater,
+                generator = generator
+            )
+        )
+    }
 
 
     /**
@@ -34,11 +45,18 @@ interface RvListFactory {
      * return ViewGeneratorHolder it is reference of data in recycler just used for
      *      getting data or view or remove it from recycler
      */
-    fun <T : View, L> addItem(
+    override fun <T : View, L> addItem(
         @LayoutRes layoutId: Int,
         child: L,
         generator: (T, L) -> Unit,
-    ): ViewGeneratorHolder<T, L>
+    ): ViewGeneratorHolder<T, L> {
+        return addItem(ViewGeneratorHolder(
+            layoutId = layoutId,
+            data = child,
+            layoutInflater = layoutInflater,
+            generator = generator
+        ))
+    }
 
     /**
      * it give you more flexibility to create view
@@ -47,9 +65,14 @@ interface RvListFactory {
      * return object of ViewGeneratorHolder it is reference of data in recycler just used for
      *      getting data or view or remove it from recycler
      */
-    fun <T, L> addItem(
+    override fun <T, L> addItem(
         item: ViewGeneratorHolder<T, L>,
-    ): ViewGeneratorHolder<T, L>
+    ): ViewGeneratorHolder<T, L> {
+        return item.also {
+            rvListAdapter.add(it)
+        }
+    }
+
 
     /**
      * binding : binding inflate functions
@@ -61,11 +84,20 @@ interface RvListFactory {
      * return list of ViewGeneratorHolder it is reference of data in recycler just used for
      * getting data or view or remove it from recycler
      */
-    fun <T : ViewBinding, L> listBuilder(
+    override fun <T : ViewBinding, L> listBuilder(
         binding: (LayoutInflater) -> T,
         children: List<L>,
         generator: (T, L) -> Unit,
-    ): List<ViewGeneratorHolder<T, L>>
+    ): List<ViewGeneratorHolder<T, L>> {
+        return addItems(children.map {
+            ViewGeneratorHolder(
+                binding = binding,
+                data = it,
+                layoutInflater = layoutInflater,
+                generator = generator
+            )
+        })
+    }
 
     /**
      * layoutId : layout resource id
@@ -78,11 +110,21 @@ interface RvListFactory {
      * getting data or view or remove it from recycler
      */
 
-    fun <T : View, L> listBuilder(
+    override fun <T : View, L> listBuilder(
         @LayoutRes layoutId: Int,
         children: List<L>,
         generator: (T, L) -> Unit,
-    ): List<ViewGeneratorHolder<T, L>>
+    ): List<ViewGeneratorHolder<T, L>> {
+        return addItems(children.map {
+            ViewGeneratorHolder(
+                layoutId = layoutId,
+                data = it,
+                layoutInflater = layoutInflater,
+                generator = generator
+            )
+        })
+
+    }
 
     /**
      * it give you more flexibility to create view
@@ -91,12 +133,41 @@ interface RvListFactory {
      * return list of ViewGeneratorHolder it is reference of data in recycler just used for
      *      getting data or view or remove it from recycler
      */
-    fun <T, L> addItems(
+    override fun <T, L> addItems(
         items: List<ViewGeneratorHolder<T, L>>,
-    ): List<ViewGeneratorHolder<T, L>>
+    ): List<ViewGeneratorHolder<T, L>> {
+        return items.also {
+            rvListAdapter.addAll(it)
+        }
+    }
 
-    fun removeItemWithViewGenerator(viewGenerator: ViewGeneratorHolder<*, *>)
-    fun removeItemWithPosition(position: Int)
-    fun removeItemWithData(data: Any)
-    fun start(recyclerView: RecyclerView, customLayoutManager: RecyclerView.LayoutManager? = null)
+    override fun removeItemWithViewGenerator(viewGenerator: ViewGeneratorHolder<*, *>) {
+        rvListAdapter.remove(viewGenerator)
+    }
+
+    override fun removeItemWithPosition(position: Int) {
+        rvListAdapter.remove(position)
+    }
+
+    override fun removeItemWithData(data: Any) {
+        rvListAdapter.remove(data)
+    }
+
+    override fun start(
+        recyclerView: RecyclerView,
+        customLayoutManager: RecyclerView.LayoutManager?,
+    ) {
+        recyclerView.apply {
+            adapter = rvListAdapter
+            layoutManager = customLayoutManager ?: LinearLayoutManager(
+                context,
+                LinearLayoutManager.VERTICAL,
+                false,
+            )
+        }
+    }
+
+
+    private val rvListAdapter = RvList()
+
 }

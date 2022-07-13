@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.newcore.easy_recycler_generator.RvListFactory
 import com.newcore.easyrecyclergenerator.databinding.FragmentFlatListTestBinding
 import com.newcore.easyrecyclergenerator.databinding.ItemIntentInfoButtonBinding
 
@@ -29,11 +28,10 @@ class MainActivity : AppCompatActivity() {
             binding.rvList,
             GridLayoutManager(this, 3),
         ) {
-
             //with binding
             listBuilder(
                 binding = ItemIntentInfoButtonBinding::inflate,
-                children = vm.list
+                children = vm.list,
             ) { v, data ->
                 v.tvDescription.text = data
                 v.tvName.text = data

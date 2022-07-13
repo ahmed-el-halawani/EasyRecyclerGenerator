@@ -56,8 +56,9 @@ class RvList : RecyclerView.Adapter<RvList.RvListViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RvListViewHolder, position: Int) {
-        holder(children[position].view)
+        holder(ViewGeneratorHolder.generateView(children[position]))
     }
 
     override fun getItemCount() = children.size
+
 }
