@@ -18,7 +18,12 @@ class RvList : RecyclerView.Adapter<RvList.RvListViewHolder>() {
         }
     }
 
-    private val children: MutableList<ViewGeneratorHolder<*, *>> = mutableListOf()
+    val children: MutableList<ViewGeneratorHolder<*, *>> = mutableListOf()
+
+
+    fun findChildById(id: Int): ViewGeneratorHolder<*, *>? {
+        return children.firstOrNull { it.view?.id == id }
+    }
 
     fun addAll(listOfAddedViews: List<ViewGeneratorHolder<*, *>>) {
         val positionStart = children.size - 1
@@ -47,6 +52,19 @@ class RvList : RecyclerView.Adapter<RvList.RvListViewHolder>() {
         notifyItemRemoved(position)
     }
 
+    fun removeAll() {
+        val size = children.size - 1
+        children.clear()
+        notifyItemRangeChanged(0, size)
+    }
+
+    fun replace(list: List<ViewGeneratorHolder<*, *>>) {
+        val size = children.size - 1
+        children.clear()
+        children.addAll(list)
+        notifyItemRangeChanged(0, size)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvListViewHolder {
         return RvListViewHolder(ItemContainerBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -60,5 +78,6 @@ class RvList : RecyclerView.Adapter<RvList.RvListViewHolder>() {
     }
 
     override fun getItemCount() = children.size
+
 
 }

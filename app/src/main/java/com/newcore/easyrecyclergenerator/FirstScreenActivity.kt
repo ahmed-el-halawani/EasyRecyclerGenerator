@@ -11,7 +11,7 @@ class FirstScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_first_screen)
 
         findViewById<Button>(R.id.btnGoToRecycler).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, FormWithValidatorsActivity::class.java)
             startActivity(intent)
         }
 

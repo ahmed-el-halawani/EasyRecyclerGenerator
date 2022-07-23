@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 fun Fragment.rvList(
     recyclerView: RecyclerView,
     layoutManager: RecyclerView.LayoutManager? = null,
+    isLazyLoading: Boolean = true,
     rvListFactory: RvListFactory.() -> Unit,
 ): RvListFactory {
-    return RvListFactoryImpl(layoutInflater).apply {
+    return RvListFactoryImpl(layoutInflater, isLazyLoading).apply {
         rvListFactory(this)
         start(recyclerView, layoutManager)
     }
@@ -18,9 +19,10 @@ fun Fragment.rvList(
 fun Activity.rvList(
     recyclerView: RecyclerView,
     layoutManager: RecyclerView.LayoutManager? = null,
-    rvListFactory: RvListFactory.() -> Unit,
+    isLazyLoading: Boolean = true,
+    rvListFactory: RvListFactory .() -> Unit,
 ): RvListFactory {
-    return RvListFactoryImpl(layoutInflater).apply {
+    return RvListFactoryImpl(layoutInflater, isLazyLoading).apply {
         rvListFactory(this)
         start(recyclerView, layoutManager)
     }

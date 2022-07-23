@@ -7,7 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFactory {
+@Suppress("UNCHECKED_CAST")
+class RvListFactoryImpl(
+    private val layoutInflater: LayoutInflater,
+    private val isLazyLoading: Boolean = true,
+) : RvListFactory {
 
     /**
      * binding : binding inflate functions
@@ -22,7 +26,7 @@ class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFact
     override fun <T : ViewBinding, L> addItem(
         binding: (LayoutInflater) -> T,
         child: L,
-        generator: (T, L) -> Unit,
+        generator: ((T, L) -> Unit)?,
     ): ViewGeneratorHolder<T, L> {
         return addItem(
             ViewGeneratorHolder(
@@ -45,11 +49,11 @@ class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFact
      * return ViewGeneratorHolder it is reference of data in recycler just used for
      *      getting data or view or remove it from recycler
      */
-    override fun <T : View, L> addItem(
+    override fun <L> addItem(
         @LayoutRes layoutId: Int,
         child: L,
-        generator: (T, L) -> Unit,
-    ): ViewGeneratorHolder<T, L> {
+        generator: ((View, L) -> Unit)?,
+    ): ViewGeneratorHolder<View, L> {
         return addItem(ViewGeneratorHolder(
             layoutId = layoutId,
             data = child,
@@ -70,6 +74,8 @@ class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFact
     ): ViewGeneratorHolder<T, L> {
         return item.also {
             rvListAdapter.add(it)
+            if (!isLazyLoading)
+                ViewGeneratorHolder.generateView(it)
         }
     }
 
@@ -87,7 +93,7 @@ class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFact
     override fun <T : ViewBinding, L> listBuilder(
         binding: (LayoutInflater) -> T,
         children: List<L>,
-        generator: (T, L) -> Unit,
+        generator: ((T, L) -> Unit)?,
     ): List<ViewGeneratorHolder<T, L>> {
         return addItems(children.map {
             ViewGeneratorHolder(
@@ -110,11 +116,11 @@ class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFact
      * getting data or view or remove it from recycler
      */
 
-    override fun <T : View, L> listBuilder(
+    override fun <L> listBuilder(
         @LayoutRes layoutId: Int,
         children: List<L>,
-        generator: (T, L) -> Unit,
-    ): List<ViewGeneratorHolder<T, L>> {
+        generator: ((View, L) -> Unit)?,
+    ): List<ViewGeneratorHolder<View, L>> {
         return addItems(children.map {
             ViewGeneratorHolder(
                 layoutId = layoutId,
@@ -138,7 +144,24 @@ class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFact
     ): List<ViewGeneratorHolder<T, L>> {
         return items.also {
             rvListAdapter.addAll(it)
+            if (!isLazyLoading)
+                for (i in it)
+                    ViewGeneratorHolder.generateView(i)
         }
+    }
+
+    override fun <L> filter(predicate: (L) -> Boolean): List<ViewGeneratorHolder<*, *>> {
+        return rvListAdapter.children.filter {
+            try {
+                predicate(it.data as L)
+            } catch (e: Throwable) {
+                true
+            }
+        }.also { rvListAdapter.replace(it) }
+    }
+
+    override fun removeAll() {
+        rvListAdapter.removeAll()
     }
 
     override fun removeItemWithViewGenerator(viewGenerator: ViewGeneratorHolder<*, *>) {
@@ -152,6 +175,10 @@ class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFact
     override fun removeItemWithData(data: Any) {
         rvListAdapter.remove(data)
     }
+
+
+    override fun findViewById(id: Int): View? =
+        rvListAdapter.findChildById(id)?.view
 
     override fun start(
         recyclerView: RecyclerView,
@@ -170,4 +197,6 @@ class RvListFactoryImpl(private val layoutInflater: LayoutInflater) : RvListFact
 
     private val rvListAdapter = RvList()
 
+
 }
+

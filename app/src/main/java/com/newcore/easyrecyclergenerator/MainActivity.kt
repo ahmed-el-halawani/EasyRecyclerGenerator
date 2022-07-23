@@ -1,7 +1,6 @@
 package com.newcore.easyrecyclergenerator
 
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -27,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         rvList(
             binding.rvList,
             GridLayoutManager(this, 3),
+            //            isLazyLoading = false
         ) {
             //with binding
             listBuilder(
@@ -35,21 +35,23 @@ class MainActivity : AppCompatActivity() {
             ) { v, data ->
                 v.tvDescription.text = data
                 v.tvName.text = data
-                //                v.button.setOnClickListener { removeItem(data) }
+                //                Glide.with(this@MainActivity)
+                //                    .load("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg")
+                //                    .into(v.ivTest)
                 v.button.setOnClickListener {
                     addNewItem(data)
                 }
             }
 
             //with view and resources id
-            listBuilder<View, String>(
+            listBuilder(
                 layoutId = R.layout.item_intent_info_button,
-                children = vm.list
+                children = vm.intList
             ) { v, data ->
-                v.findViewById<TextView>(R.id.tvDescription).text = data
-                v.findViewById<TextView>(R.id.tvName).text = data
+                v.findViewById<TextView>(R.id.tvDescription).text = data.toString()
+                v.findViewById<TextView>(R.id.tvName).text = data.toString()
                 v.findViewById<CardView>(R.id.button).setOnClickListener {
-                    addNewItemWithView(data)
+                    addNewItemWithView(data.toString())
                 }
                 //                v.button.setOnClickListener { removeItem(data) }
             }
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun RvListFactory.addNewItemWithView(data: String) {
         vm.list.add(data)
-        addItem<View, String>(
+        addItem(
             layoutId = R.layout.item_intent_info_button,
             child = data + "new"
         ) { v, innerData ->

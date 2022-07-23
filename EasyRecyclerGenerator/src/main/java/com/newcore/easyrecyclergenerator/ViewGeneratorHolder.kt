@@ -9,7 +9,7 @@ class ViewGeneratorHolder<T, L>(
     private val layoutId: Int = -1,
     val data: L,
     private val layoutInflater: LayoutInflater,
-    private val generator: (T, L) -> Unit,
+    private val generator: ((T, L) -> Unit)? = null,
 ) {
     var view: View? = null
         private set
@@ -21,13 +21,14 @@ class ViewGeneratorHolder<T, L>(
 
                 view = if (layoutId == -1)
                     (binding!!(layoutInflater)
-                        .apply { generator(this, data) } as ViewBinding).root
+                        .apply { generator?.invoke(this, data) } as ViewBinding).root
                 else
                     layoutInflater.inflate(layoutId, null, false)
-                        .apply { generator(this as T, data) }
+                        .apply { generator?.invoke(this as T, data) }
 
                 return view!!
             }
         }
     }
 }
+

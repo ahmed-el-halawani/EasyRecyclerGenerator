@@ -6,4 +6,8 @@ class MainViewModel : ViewModel() {
     val list by lazy {
         MutableList(1000) { "ahmed $it" }
     }
+
+    val intList by lazy {
+        MutableList(1000) { it }
+    }
 }
