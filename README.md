@@ -19,6 +19,7 @@ Easy and modern way to make recycler view list
 Step 2. Add the dependency
 
 	dependencies {
+	        implementation 'com.github.ahmedgomaa97:AGCore:1.0.0'
 	        implementation 'com.github.ahmedgomaa97:EasyRecyclerGenerator:version'
 	}
 
