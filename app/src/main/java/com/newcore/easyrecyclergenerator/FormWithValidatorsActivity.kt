@@ -1,11 +1,9 @@
 package com.newcore.easyrecyclergenerator
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.newcore.core.ViewContainer
 import com.newcore.easyrecyclergenerator.databinding.ActivityFormWithValidatorsBinding
 import com.newcore.myformvalidation.validators.emailValidator
 import com.newcore.myformvalidation.validators.emptyValidator
@@ -23,18 +21,9 @@ class FormWithValidatorsActivity : AppCompatActivity() {
 
     private fun onViewCreated() {
 
-
         rvList(binding.rvList, isLazyLoading = false) {
 
-
-            val container = object : ViewContainer {
-                override fun <T : View> findViewById(id: Int): T {
-                    return this@rvList.findViewById(id) as T
-                }
-            }
-
             vmForm {
-
                 addTextView("ahmed")
                 addEditText("ahmed", "hint") { v, d ->
                     inputField(
@@ -45,18 +34,15 @@ class FormWithValidatorsActivity : AppCompatActivity() {
                     }
                 }
 
-
-                addEditText("ahmed", "email") { v, i ->
+                addEditText("agomaa528.ag@gmail.com", "email") { v, i ->
                     inputField(
                         v.editText,
                         layoutView = rvListLayoutView(v.editText),
-                        isOptional = true
                     ) {
                         emptyValidator()
                         emailValidator()
                     }
                 }
-
 
 
                 submitButton(binding.btnSub)

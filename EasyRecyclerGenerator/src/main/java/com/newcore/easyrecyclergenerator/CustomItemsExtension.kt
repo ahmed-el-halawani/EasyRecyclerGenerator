@@ -16,21 +16,21 @@ fun RvListFactory.addTextView(
             typeface = data.fontFamily ?: Typeface.DEFAULT
             setTypeface(view.textView.typeface, data.fontStyle.typeFaces)
             text = value
-            textSize = textSize
+            textSize = data.textSizeInSp
         }
-
+        generator?.invoke(view, data)
     }
 
     return addItem(
         AddItemTextViewBinding::inflate,
         style ?: TextStyle.default(),
-        generator ?: myGenerator
+        myGenerator
     )
 }
 
 fun RvListFactory.addEditText(
-    value: String,
-    hint: String,
+    value: String? = null,
+    hint: String? = null,
     style: TextStyle? = null,
     generator: ((AddItemEditTextBinding, TextStyle) -> Unit)? = null,
 ): ViewGeneratorHolder<AddItemEditTextBinding, TextStyle> {
@@ -39,17 +39,17 @@ fun RvListFactory.addEditText(
         view.editText.apply {
             typeface = data.fontFamily ?: Typeface.DEFAULT
             setTypeface(view.editText.typeface, data.fontStyle.typeFaces)
-            textSize = textSize
+            textSize = data.textSizeInSp
             setHint(hint)
             setText(value)
         }
-
+        generator?.invoke(view, data)
     }
 
     return addItem(
         AddItemEditTextBinding::inflate,
         style ?: TextStyle.default(),
-        generator ?: myGenerator
+        myGenerator
     )
 }
 

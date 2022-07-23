@@ -50,7 +50,7 @@ dependencies {
 
     implementation project(':EasyRecyclerGenerator')
     //
-    implementation 'com.github.ahmedgomaa97:letsTryIt:1.7.2'
+    implementation 'com.github.ahmedgomaa97:letsTryIt:1.7.3'
     implementation 'com.github.ahmedgomaa97:AGCore:1.0.0'
 
 

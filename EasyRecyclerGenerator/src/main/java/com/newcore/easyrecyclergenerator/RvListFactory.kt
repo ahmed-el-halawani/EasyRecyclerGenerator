@@ -24,7 +24,6 @@ interface RvListFactory {
     fun <T : ViewBinding, L> addItem(
         binding: (LayoutInflater) -> T,
         child: L,
-
         generator: ((T, L) -> Unit)? = null,
     ): ViewGeneratorHolder<T, L>
 
