@@ -44,6 +44,12 @@ class RvSingleListFactoryImpl<T : ViewBinding, L>(
     }
 
 
+    override fun take(take: Int): List<L> {
+        rvListAdapter.children = children.take(take)
+        return rvListAdapter.children
+    }
+
+
     override fun start(
         recyclerView: RecyclerView,
         customLayoutManager: RecyclerView.LayoutManager?,
