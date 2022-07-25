@@ -23,7 +23,9 @@ interface RvSingleListFactory<T : ViewBinding, L> {
 
     fun filter(predicate: (L) -> Boolean): List<L>
 
-    fun take(take: Int): List<L>
+    fun take(take: Int? = null): List<L>
+
+    fun doOnList(doIt: (List<L>) -> List<L>)
 
 
     fun start(recyclerView: RecyclerView, customLayoutManager: RecyclerView.LayoutManager? = null)

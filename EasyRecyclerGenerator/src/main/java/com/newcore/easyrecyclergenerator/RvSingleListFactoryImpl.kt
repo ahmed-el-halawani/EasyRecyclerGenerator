@@ -43,10 +43,13 @@ class RvSingleListFactoryImpl<T : ViewBinding, L>(
         return rvListAdapter.children
     }
 
-
-    override fun take(take: Int): List<L> {
-        rvListAdapter.children = children.take(take)
+    override fun take(take: Int?): List<L> {
+        rvListAdapter.children = take?.let { children.take(it) } ?: children
         return rvListAdapter.children
+    }
+
+    override fun doOnList(doIt: (List<L>) -> List<L>) {
+        rvListAdapter.children = doIt(children)
     }
 
 

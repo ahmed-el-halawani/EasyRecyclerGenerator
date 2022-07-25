@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
             listBuilder { v, d ->
                 v.tvName.text = d;
             }
+            take(10)
+            take()
         }
 
         rvList(
