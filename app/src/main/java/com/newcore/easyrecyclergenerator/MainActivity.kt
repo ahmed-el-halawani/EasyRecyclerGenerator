@@ -23,6 +23,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        rvSingleList(
+            binding.rvList,
+            ItemIntentInfoButtonBinding::inflate,
+            vm.list
+        ) {
+            listBuilder { v, d ->
+                v.tvName.text = d;
+            }
+        }
+
         rvList(
             binding.rvList,
             GridLayoutManager(this, 3),

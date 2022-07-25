@@ -1,8 +1,11 @@
 package com.newcore.easyrecyclergenerator
 
 import android.app.Activity
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 
 fun Fragment.rvList(
     recyclerView: RecyclerView,
@@ -28,4 +31,32 @@ fun Activity.rvList(
     }
 }
 
+
+fun <T : ViewBinding, L> Fragment.rvSingleList(
+    recyclerView: RecyclerView,
+    binding: (LayoutInflater, ViewGroup, Boolean) -> T,
+    children: List<L>,
+
+    layoutManager: RecyclerView.LayoutManager? = null,
+    rvListFactory: RvSingleListFactory<T, L>.() -> Unit,
+): RvSingleListFactoryImpl<T, L> {
+    return RvSingleListFactoryImpl(binding, children).apply {
+        rvListFactory(this)
+        start(recyclerView, layoutManager)
+    }
+}
+
+fun <T : ViewBinding, L> Activity.rvSingleList(
+    recyclerView: RecyclerView,
+    binding: (LayoutInflater, ViewGroup, Boolean) -> T,
+    children: List<L>,
+
+    layoutManager: RecyclerView.LayoutManager? = null,
+    rvListFactory: RvSingleListFactory<T, L>.() -> Unit,
+): RvSingleListFactoryImpl<T, L> {
+    return RvSingleListFactoryImpl(binding, children).apply {
+        rvListFactory(this)
+        start(recyclerView, layoutManager)
+    }
+}
 
