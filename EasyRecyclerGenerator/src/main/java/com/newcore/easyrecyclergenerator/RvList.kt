@@ -26,14 +26,14 @@ class RvList : RecyclerView.Adapter<RvList.RvListViewHolder>() {
     }
 
     fun addAll(listOfAddedViews: List<ViewGeneratorHolder<*, *>>) {
-        val positionStart = children.size - 1
+        val positionStart = children.size
         children.addAll(listOfAddedViews)
         notifyItemRangeChanged(positionStart, listOfAddedViews.size)
     }
 
     fun add(view: ViewGeneratorHolder<*, *>) {
         children.add(view)
-        notifyItemInserted(children.size - 1)
+        notifyItemInserted(children.size)
     }
 
     fun remove(viewGeneratorHolder: ViewGeneratorHolder<*, *>) {
@@ -53,24 +53,26 @@ class RvList : RecyclerView.Adapter<RvList.RvListViewHolder>() {
     }
 
     fun removeAll() {
-        val size = children.size - 1
+        val size = children.size
         children.clear()
         notifyItemRangeChanged(0, size)
     }
 
     fun replace(list: List<ViewGeneratorHolder<*, *>>) {
-        val size = children.size - 1
+        val size = children.size
         children.clear()
         children.addAll(list)
         notifyItemRangeChanged(0, size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvListViewHolder {
-        return RvListViewHolder(ItemContainerBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false,
-        ))
+        return RvListViewHolder(
+            ItemContainerBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false,
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: RvListViewHolder, position: Int) {
