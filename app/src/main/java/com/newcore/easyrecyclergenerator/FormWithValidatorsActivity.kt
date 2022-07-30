@@ -26,12 +26,12 @@ class FormWithValidatorsActivity : AppCompatActivity() {
             vmForm {
                 addTextView("ahmed")
                 addEditText("ahmed", "hint") { v, d ->
-                    inputField(
-                        v.editText,
-                        layoutView = rvListLayoutView(v.editText)
-                    ) {
-                        emptyValidator()
-                    }
+                    //                    inputField(
+                    //                        v.editText,
+                    //                        layoutView = rvListLayoutView(v.editText)
+                    //                    ) {
+                    //                        emptyValidator()
+                    //                    }
                 }
 
                 addEditText("agomaa528.ag@gmail.com", "email") { v, i ->

@@ -32,7 +32,7 @@ fun Activity.rvList(
 }
 
 
-fun <T : ViewBinding, L> Fragment.rvSingleList(
+fun <T : ViewBinding, L : Any> Fragment.rvSingleList(
     recyclerView: RecyclerView,
     binding: (LayoutInflater, ViewGroup, Boolean) -> T,
     children: List<L>,
@@ -46,16 +46,16 @@ fun <T : ViewBinding, L> Fragment.rvSingleList(
     }
 }
 
-fun <T : ViewBinding, L> Activity.rvSingleList(
+fun <T : ViewBinding, L : Any> Activity.rvSingleList(
     recyclerView: RecyclerView,
     binding: (LayoutInflater, ViewGroup, Boolean) -> T,
     children: List<L>,
 
     layoutManager: RecyclerView.LayoutManager? = null,
-    rvListFactory: RvSingleListFactory<T, L>.() -> Unit,
+    rvListFactory: (RvSingleListFactory<T, L>.() -> Unit)? = null,
 ): RvSingleListFactoryImpl<T, L> {
     return RvSingleListFactoryImpl(binding, children).apply {
-        rvListFactory(this)
+        rvListFactory?.invoke(this)
         start(recyclerView, layoutManager)
     }
 }

@@ -34,41 +34,41 @@ class MainActivity : AppCompatActivity() {
             take(10)
             take()
         }
-
-        rvList(
-            binding.rvList,
-            GridLayoutManager(this, 3),
-            //            isLazyLoading = false
-        ) {
-            //with binding
-            listBuilder(
-                binding = ItemIntentInfoButtonBinding::inflate,
-                children = vm.list,
-            ) { v, data ->
-                v.tvDescription.text = data
-                v.tvName.text = data
-                //                Glide.with(this@MainActivity)
-                //                    .load("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg")
-                //                    .into(v.ivTest)
-                v.button.setOnClickListener {
-                    addNewItem(data)
-                }
-            }
-
-            //with view and resources id
-            listBuilder(
-                layoutId = R.layout.item_intent_info_button,
-                children = vm.intList
-            ) { v, data ->
-                v.findViewById<TextView>(R.id.tvDescription).text = data.toString()
-                v.findViewById<TextView>(R.id.tvName).text = data.toString()
-                v.findViewById<CardView>(R.id.button).setOnClickListener {
-                    addNewItemWithView(data.toString())
-                }
-                //                v.button.setOnClickListener { removeItem(data) }
-            }
-
-        }
+//
+//        rvList(
+//            binding.rvList,
+//            GridLayoutManager(this, 3),
+//            //            isLazyLoading = false
+//        ) {
+//            //with binding
+//            listBuilder(
+//                binding = ItemIntentInfoButtonBinding::inflate,
+//                children = vm.list,
+//            ) { v, data ->
+//                v.tvDescription.text = data
+//                v.tvName.text = data
+//                //                Glide.with(this@MainActivity)
+//                //                    .load("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg")
+//                //                    .into(v.ivTest)
+//                v.button.setOnClickListener {
+//                    addNewItem(data)
+//                }
+//            }
+//
+//            //with view and resources id
+//            listBuilder(
+//                layoutId = R.layout.item_intent_info_button,
+//                children = vm.intList
+//            ) { v, data ->
+//                v.findViewById<TextView>(R.id.tvDescription).text = data.toString()
+//                v.findViewById<TextView>(R.id.tvName).text = data.toString()
+//                v.findViewById<CardView>(R.id.button).setOnClickListener {
+//                    addNewItemWithView(data.toString())
+//                }
+//                //                v.button.setOnClickListener { removeItem(data) }
+//            }
+//
+//        }
 
     }
 

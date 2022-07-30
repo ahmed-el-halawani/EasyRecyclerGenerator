@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyRecyclerGenerator">
         <activity
+            android:name=".SingleListActivity"
+            android:exported="false" />
+        <activity
             android:name=".FormWithValidatorsActivity"
             android:exported="false" />
         <activity
@@ -25,7 +28,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

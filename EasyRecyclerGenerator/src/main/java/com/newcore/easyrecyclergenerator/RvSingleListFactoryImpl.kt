@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 @Suppress("UNCHECKED_CAST")
-class RvSingleListFactoryImpl<T : ViewBinding, L>(
+class RvSingleListFactoryImpl<T : ViewBinding, L : Any>(
     private val binding: (LayoutInflater, ViewGroup, Boolean) -> T,
-    private val children: List<L>,
+    private var children: List<L>,
 ) : RvSingleListFactory<T, L> {
 
     var filteredList = children;
@@ -28,28 +28,44 @@ class RvSingleListFactoryImpl<T : ViewBinding, L>(
         generator: ((T, L) -> Unit)?,
     ): List<L> {
         rvListAdapter.viewHolder = generator
-        return children.also { rvListAdapter.children = it }
+        return children.also { rvListAdapter.diffUtil.submitList(it) }
     }
 
 
     override fun filter(predicate: (L) -> Boolean): List<L> {
-        rvListAdapter.children = children.filter {
-            try {
-                predicate(it)
-            } catch (e: Throwable) {
-                true
-            }
+        return children.filter { predicate(it) }.also {
+            rvListAdapter.diffUtil.submitList(it)
         }
-        return rvListAdapter.children
     }
 
     override fun take(take: Int?): List<L> {
-        rvListAdapter.children = take?.let { children.take(it) } ?: children
-        return rvListAdapter.children
+        return (take?.let { children.take(it) } ?: children).also {
+            rvListAdapter.diffUtil.submitList(it)
+        }
     }
 
     override fun doOnList(doIt: (List<L>) -> List<L>) {
-        rvListAdapter.children = doIt(children)
+        children = doIt(children)
+        rvListAdapter.diffUtil.submitList(children)
+    }
+
+    override fun addList(list: List<L>) {
+        children = children.plus(list)
+        rvListAdapter.diffUtil.apply {
+            submitList(children)
+        }
+    }
+
+    override fun addItem(item: L) {
+        children.plus(item).also {
+            children = it
+            rvListAdapter.diffUtil.submitList(it)
+        }
+    }
+
+    override fun setList(list: List<L>) {
+        children = list
+        rvListAdapter.diffUtil.submitList(children)
     }
 
 

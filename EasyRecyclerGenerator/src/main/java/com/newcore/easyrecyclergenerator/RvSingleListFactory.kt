@@ -27,6 +27,12 @@ interface RvSingleListFactory<T : ViewBinding, L> {
 
     fun doOnList(doIt: (List<L>) -> List<L>)
 
+    fun addList(list: List<L>)
+
+    fun addItem(item: L)
+
+    fun setList(list: List<L>)
+
 
     fun start(recyclerView: RecyclerView, customLayoutManager: RecyclerView.LayoutManager? = null)
 }
