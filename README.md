@@ -1,6 +1,6 @@
 ### Version 
 [![](https://jitpack.io/v/ahmedgomaa97/EasyRecyclerGenerator.svg)](https://jitpack.io/#ahmedgomaa97/EasyRecyclerGenerator)
-# easy_recycler_generator 
+# easy recycler generator 
 Easy and modern way to make recycler view list
  
   
