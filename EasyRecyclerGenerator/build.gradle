@@ -8,7 +8,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        minSdk 27
+        minSdk 24
         targetSdk 32
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -42,7 +42,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    implementation 'com.github.ahmedgomaa97:AGCore:1.0.0'
+//    implementation 'com.github.ahmedgomaa97:AGCore:1.0.0'
 
 }
 
